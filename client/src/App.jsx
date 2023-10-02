@@ -8,6 +8,21 @@ import PowerEditForm from "./components/PowerEditForm";
 import PowerById from "./components/PowerById";
 
 function App() {
+  const [data, setData] = useState('')
+
+  // fetch
+  useEffect(() => {
+   fetch('/api')
+     .then((response) => {
+       if (!response.ok) {
+         throw new Error(`HTTP error! Status: ${response.status}`);
+       }
+       return response.json();
+     })
+     .then((data) => setData(data.message))
+     .catch((error) => console.error('Fetch error:', error));
+ }, []);
+
   return (
     <BrowserRouter>
     <div>

@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request,render_template
 from myapp import app, db,hero_bp,power_bp,heropower_bp
 from sqlalchemy.orm.exc import NoResultFound
 from myapp.models import Hero, Power, HeroPower
@@ -9,9 +9,10 @@ from flask_restful import Resource, Api,abort
 api = Api(app)
 
 class HomeResource(Resource):
-    def get(self):
-        return "Hello!"
-
+    def home(id=0):
+        return render_template("index.html")
+        # return{"message":"Hello World!"}
+    
 class Heros(Resource):
     def get(self):
         heros = Hero.query.all()
@@ -95,7 +96,8 @@ app.register_blueprint(power_bp, url_prefix ='/api/powers')
 app.register_blueprint(heropower_bp, url_prefix ='/api/hero_powers')
 
 # Add resources
-api.add_resource(HomeResource, '/')
+# api.add_resource(HomeResource, '/')
+api.add_resource(HomeResource, '/<int:id>')
 api.add_resource(Heros, '/heroes')
 api.add_resource(HeroIdResource, '/heroes/<int:id>')
 api.add_resource(Powers, '/powers')
